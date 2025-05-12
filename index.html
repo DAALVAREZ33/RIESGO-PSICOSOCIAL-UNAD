@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prevención del Desgaste Profesional - Juego Educativo</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --warning: #e74c3c;
+            --dark: #34495e;
+            --light: #ecf0f1;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--dark);
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            margin: 1rem 0;
+            color: var(--dark);
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .info-section {
+            margin-bottom: 3rem;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .game-section {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .factor-card {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .symptom-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .symptom-item {
+            background-color: var(--light);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .game-container {
+            background-color: var(--light);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            min-height: 400px;
+        }
+        
+        .scenario {
+            display: none;
+        }
+        
+        .scenario.active {
+            display: block;
+        }
+        
+        .scenario-content {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .option-btn {
+            background-color: white;
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        
+        .option-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .feedback {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .feedback.positive {
+            background-color: rgba(46, 204, 113, 0.2);
+            border: 1px solid var(--secondary);
+        }
+        
+        .feedback.negative {
+            background-color: rgba(231, 76, 60, 0.2);
+            border: 1px solid var(--warning);
+        }
+        
+        .next-btn, .restart-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        .next-btn:hover, .restart-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .progress-container {
+            margin: 2rem 0;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            height: 10px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 10px;
+            background-color: var(--secondary);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+        
+        .results {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--light);
+            border-radius: 8px;
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .results h3 {
+            margin-bottom: 1.5rem;
+        }
+        
+        .resource-links {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 8px;
+        }
+        
+        .resource-links a {
+            display: block;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .resource-links a:hover {
+            text-decoration: underline;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Prevención del Desgaste Profesional</h1>
+        <p>Juego educativo sobre factores de riesgo psicosocial en el trabajo</p>
+    </header>
+    
+    <div class="container">
+        <section class="info-section">
+            <h2>¿Qué es el síndrome de desgaste profesional (burnout)?</h2>
+            <p>El síndrome de desgaste profesional, también conocido como <strong>burnout</strong>, es un estado de agotamiento físico, emocional y mental causado por el estrés crónico en el entorno laboral. Se caracteriza por tres dimensiones principales:</p>
+            
+            <div class="factor-card">
+                <h3>1. Agotamiento emocional</h3>
+                <p>Sensación de estar emocionalmente sobrecargado y agotado por el trabajo, con una disminución o pérdida de recursos emocionales.</p>
+            </div>
+            
+            <div class="factor-card">
+                <h3>2. Despersonalización</h3>
+                <p>Desarrollo de actitudes negativas, insensibles y distantes hacia las personas con las que se trabaja (compañeros, clientes, pacientes, etc.).</p>
+            </div>
+            
+            <div class="factor-card">
+                <h3>3. Baja realización personal</h3>
+                <p>Tendencia a evaluarse negativamente en relación al propio trabajo y a la capacidad para realizarlo, acompañada de insatisfacción con los logros profesionales.</p>
+            </div>
+            
+            <h2>Síntomas comunes del burnout</h2>
+            <div class="symptom-list">
+                <div class="symptom-item">
+                    <h3>Físicos</h3>
+                    <ul>
+                        <li>Fatiga crónica</li>
+                        <li>Insomnio</li>
+                        <li>Dolores de cabeza frecuentes</li>
+                        <li>Problemas gastrointestinales</li>
+                        <li>Disminución de defensas inmunológicas</li>
+                    </ul>
+                </div>
+                
+                <div class="symptom-item">
+                    <h3>Emocionales</h3>
+                    <ul>
+                        <li>Sentimientos de fracaso</li>
+                        <li>Desesperanza e impotencia</li>
+                        <li>Irritabilidad y frustración</li>
+                        <li>Ansiedad</li>
+                        <li>Depresión</li>
+                    </ul>
+                </div>
+                
+                <div class="symptom-item">
+                    <h3>Conductuales</h3>
+                    <ul>
+                        <li>Ausentismo laboral</li>
+                        <li>Distanciamiento de compañeros</li>
+                        <li>Mayor consumo de café, alcohol o medicamentos</li>
+                        <li>Disminución del rendimiento laboral</li>
+                        <li>Dificultad para concentrarse</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h2>Factores de riesgo psicosocial asociados al burnout</h2>
+            
+            <div class="factor-card">
+                <h3>Demandas de trabajo excesivas</h3>
+                <p>Ocurre cuando las exigencias laborales superan la capacidad de respuesta del trabajador, como:</p>
+                <ul>
+                    <li>Sobrecarga de trabajo</li>
+                    <li>Presión temporal</li>
+                    <li>Alta complejidad de tareas</li>
+                    <li>Horarios extensos o turnos rotativos</li>
+                    <li>Ambigüedad en las funciones</li>
+                </ul>
+            </div>
+            
+            <div class="factor-card">
+                <h3>Bajo control sobre el trabajo</h3>
+                <p>Se refiere a la limitada capacidad de decisión y autonomía del trabajador:</p>
+                <ul>
+                    <li>Escasa participación en la toma de decisiones</li>
+                    <li>Poca autonomía para organizar las tareas</li>
+                    <li>Rigidez en los procedimientos</li>
+                    <li>Limitación en el desarrollo de habilidades</li>
+                    <li>Monotonía y repetitividad</li>
+                </ul>
+            </div>
+            
+            <div class="factor-card">
+                <h3>Problemas de liderazgo y relaciones sociales</h3>
+                <p>Engloba los aspectos relacionados con la gestión y las interacciones sociales:</p>
+                <ul>
+                    <li>Liderazgo autoritario o ausente</li>
+                    <li>Falta de apoyo de superiores</li>
+                    <li>Conflictos interpersonales</li>
+                    <li>Acoso laboral</li>
+                    <li>Comunicación deficiente</li>
+                    <li>Trabajo en aislamiento</li>
+                </ul>
+            </div>
+            
+            <div class="factor-card">
+                <h3>Desequilibrio esfuerzo-recompensa</h3>
+                <p>Ocurre cuando no existe una adecuada compensación por el esfuerzo realizado:</p>
+                <ul>
+                    <li>Salario insuficiente</li>
+                    <li>Falta de reconocimiento</li>
+                    <li>Escasas oportunidades de promoción</li>
+                    <li>Inseguridad laboral</li>
+                    <li>Inequidad percibida</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="game-section">
+            <h2>Juego: "Equilibrio Laboral"</h2>
+            <p>En este juego interactivo, te enfrentarás a diferentes situaciones laborales donde deberás tomar decisiones para prevenir el síndrome de desgaste profesional. Tus elecciones afectarán cuatro áreas clave relacionadas con los factores de riesgo psicosocial.</p>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <p>Gestión de demandas</p>
+                    <div class="stat-value" id="demands-value">100</div>
+                </div>
+                <div class="stat-card">
+                    <p>Control laboral</p>
+                    <div class="stat-value" id="control-value">100</div>
+                </div>
+                <div class="stat-card">
+                    <p>Calidad de liderazgo</p>
+                    <div class="stat-value" id="leadership-value">100</div>
+                </div>
+                <div class="stat-card">
+                    <p>Satisfacción con recompensas</p>
+                    <div class="stat-value" id="reward-value">100</div>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            
+            <div class="game-container" id="game-container">
+                <!-- Los escenarios se generarán dinámicamente con JavaScript -->
+            </div>
+            
+            <div class="results" id="results">
+                <h3>Resultados finales</h3>
+                <p id="result-message"></p>
+                <div class="resource-links">
+                    <h3>Recursos adicionales</h3>
+                    <p>Para profundizar sobre la prevención del desgaste profesional:</p>
+                    <a href="https://www.who.int/es/news-room/fact-sheets/detail/mental-health-at-work" target="_blank">OMS: Salud mental en el trabajo</a>
+                    <a href="https://www.insst.es/" target="_blank">Instituto Nacional de Seguridad y Salud en el Trabajo</a>
+                    <a href="https://osha.europa.eu/es" target="_blank">Agencia Europea para la Seguridad y la Salud en el Trabajo</a>
+                </div>
+                <button class="restart-btn" id="restart-btn">Volver a jugar</button>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <p>© 2025 - Juego educativo sobre prevención del síndrome de desgaste profesional</p>
+        <p>Diseñado para la formación y concientización sobre riesgos psicosociales en el trabajo</p>
+    </footer>
+
+    <script>
+        // Definición de escenarios del juego
+        const scenarios = [
+            {
+                id: 1,
+                title: "Sobrecarga de trabajo",
+                description: "Tu jefe te asigna un nuevo proyecto con un plazo muy ajustado, cuando ya tienes una gran carga de trabajo. ¿Qué harías?",
+                options: [
+                    {
+                        text: "Aceptar el proyecto sin discutir y trabajar horas extra para cumplir con todos los plazos.",
+                        impact: { demands: -20, control: -10, leadership: 0, reward: -5 },
+                        feedback: {
+                            type: "negative",
+                            message: "Aceptar trabajo excesivo sin establecer límites contribuye directamente al burnout. La sobrecarga laboral es uno de los principales factores de riesgo psicosocial."
+                        }
+                    },
+                    {
+                        text: "Hablar con tu jefe, explicar tu situación actual y negociar plazos más realistas o una redistribución de tareas.",
+                        impact: { demands: +10, control: +15, leadership: +5, reward: 0 },
+                        feedback: {
+                            type: "positive",
+                            message: "¡Excelente decisión! La comunicación asertiva y el establecimiento de límites saludables son claves para prevenir el desgaste profesional."
+                        }
+                    },
+                    {
+                        text: "Aceptar el proyecto pero solicitar apoyo adicional y recursos para poder completarlo adecuadamente.",
+                        impact: { demands: +5, control: +5, leadership: +10, reward: 0 },
+                        feedback: {
+                            type: "positive",
+                            message: "Buena elección. Identificar los recursos necesarios y solicitarlos demuestra autoconocimiento y ayuda a mantener un equilibrio en las demandas laborales."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "Falta de autonomía",
+                description: "Has desarrollado un método más eficiente para realizar una tarea rutinaria, pero tu supervisor insiste en que sigas el procedimiento establecido. ¿Cómo actúas?",
+                options: [
+                    {
+                        text: "Continúas con el método tradicional sin cuestionar, aunque sea menos eficiente.",
+                        impact: { demands: -5, control: -15, leadership: -5, reward: -10 },
+                        feedback: {
+                            type: "negative",
+                            message: "La falta de autonomía y la imposibilidad de aplicar ideas propias generan frustración y pueden conducir al desgaste profesional con el tiempo."
+                        }
+                    },
+                    {
+                        text: "Presentas formalmente tu propuesta con datos que respalden la eficiencia de tu método.",
+                        impact: { demands: +5, control: +15, leadership: +5, reward: +10 },
+                        feedback: {
+                            type: "positive",
+                            message: "¡Muy bien! Buscar espacios para proponer mejoras aumenta tu sensación de control y puede incrementar la satisfacción laboral."
+                        }
+                    },
+                    {
+                        text: "Usas tu método cuando no te supervisan y el método tradicional cuando están observándote.",
+                        impact: { demands: +5, control: -5, leadership: -10, reward: -5 },
+                        feedback: {
+                            type: "negative",
+                            message: "Actuar de manera encubierta puede generar estrés adicional y afectar la confianza en el ambiente laboral, factor importante en la prevención del burnout."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "Estilo de liderazgo",
+                description: "Tu equipo enfrenta dificultades para alcanzar los objetivos mensuales y tu jefe reacciona aumentando la presión y criticando constantemente. ¿Qué haces?",
+                options: [
+                    {
+                        text: "Aguantas la situación sin decir nada, esperando que mejore con el tiempo.",
+                        impact: { demands: -10, control: -10, leadership: -15, reward: -5 },
+                        feedback: {
+                            type: "negative",
+                            message: "El estilo de liderazgo autoritario y la falta de apoyo son factores de riesgo psicosocial importantes. No abordar estos problemas puede acelerar el desgaste profesional."
+                        }
+                    },
+                    {
+                        text: "Propones una reunión de equipo para analizar los problemas y buscar soluciones conjuntas.",
+                        impact: { demands: +5, control: +10, leadership: +15, reward: +5 },
+                        feedback: {
+                            type: "positive",
+                            message: "¡Excelente iniciativa! Fomentar la colaboración y la resolución constructiva de problemas mejora el clima laboral y reduce el riesgo de burnout."
+                        }
+                    },
+                    {
+                        text: "Hablas en privado con tu jefe sobre cómo su estilo de gestión está afectando la moral del equipo.",
+                        impact: { demands: 0, control: +5, leadership: +10, reward: 0 },
+                        feedback: {
+                            type: "positive",
+                            message: "Buena elección. La comunicación respetuosa sobre problemas de liderazgo puede ayudar a mejorar las condiciones laborales que previenen el burnout."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title: "Reconocimiento y recompensa",
+                description: "Acabas de completar con éxito un proyecto importante que requirió horas extra y gran esfuerzo, pero no has recibido ningún reconocimiento por ello. ¿Qué haces?",
+                options: [
+                    {
+                        text: "No dices nada y continúas con tus tareas habituales, frustrado por la falta de reconocimiento.",
+                        impact: { demands: -5, control: -5, leadership: -5, reward: -20 },
+                        feedback: {
+                            type: "negative",
+                            message: "El desequilibrio entre esfuerzo y recompensa es un factor clave en el desarrollo del burnout. No abordar este desequilibrio puede generar desmotivación crónica."
+                        }
+                    },
+                    {
+                        text: "Solicitas una reunión con tu supervisor para discutir tu desarrollo profesional y el reconocimiento de tus contribuciones.",
+                        impact: { demands: 0, control: +10, leadership: +5, reward: +15 },
+                        feedback: {
+                            type: "positive",
+                            message: "¡Excelente decisión! Buscar activamente reconocimiento y oportunidades de desarrollo es importante para prevenir la sensación de falta de recompensa."
+                        }
+                    },
+                    {
+                        text: "Compartes los logros del proyecto con el equipo y organizas una pequeña celebración, creando tu propio reconocimiento.",
+                        impact: { demands: +5, control: +5, leadership: +10, reward: +10 },
+                        feedback: {
+                            type: "positive",
+                            message: "Buena estrategia. Fomentar un ambiente de reconocimiento mutuo puede compensar parcialmente la falta de reconocimiento formal y mejorar el clima laboral."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 5,
+                title: "Conflicto interpersonal",
+                description: "Has notado que un compañero de trabajo tiende a tomar crédito por tu trabajo y habla negativamente de ti con otros. ¿Cómo manejas esta situación?",
+                options: [
+                    {
+                        text: "Evitas a este compañero y tratas de trabajar solo lo más posible.",
+                        impact: { demands: -5, control: -10, leadership: -5, reward: -5 },
+                        feedback: {
+                            type: "negative",
+                            message: "El aislamiento como respuesta a conflictos puede empeorar el problema y aumentar la tensión psicológica, factor de riesgo para el burnout."
+                        }
+                    },
+                    {
+                        text: "Hablas directamente con tu compañero sobre lo que has observado, buscando una solución constructiva.",
+                        impact: { demands: +5, control: +15, leadership: +5, reward: +5 },
+                        feedback: {
+                            type: "positive",
+                            message: "¡Muy bien! Abordar los conflictos interpersonales de manera asertiva contribuye a un ambiente laboral saludable y reduce el estrés crónico."
+                        }
+                    },
+                    {
+                        text: "Comunicas la situación a tu supervisor y pides su intervención para resolver el conflicto.",
+                        impact: { demands: 0, control: +5, leadership: +10, reward: 0 },
+                        feedback: {
+                            type: "positive",
+                            message: "Buscar apoyo institucional es apropiado cuando los conflictos persisten. Un buen manejo de conflictos desde el liderazgo contribuye a prevenir el desgaste profesional."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 6,
+                title: "Equilibrio trabajo-vida personal",
+                description: "Últimamente has estado trabajando hasta tarde y llevándote trabajo a casa los fines de semana. Tu vida personal se está viendo afectada. ¿Qué decides hacer?",
+                options: [
+                    {
+                        text: "Sigues con este ritmo, sacrificando tu tiempo personal para cumplir con todas las expectativas laborales.",
+                        impact: { demands: -20, control: -15, leadership: 0, reward: -10 },
+                        feedback: {
+                            type: "negative",
+                            message: "El desequilibrio entre trabajo y vida personal es uno de los principales desencadenantes del burnout. Ignorar las señales de agotamiento aumenta el riesgo significativamente."
+                        }
+                    },
+                    {
+                        text: "Estableces límites claros en tu horario laboral y aprendes a decir 'no' a tareas adicionales cuando es necesario.",
+                        impact: { demands: +15, control: +20, leadership: +5, reward: +5 },
+                        feedback: {
+                            type: "positive",
+                            message: "¡Excelente decisión! Establecer límites saludables y priorizar el equilibrio trabajo-vida es fundamental para prevenir el desgaste profesional."
+                        }
+                    },
+                    {
+                        text: "Hablas con tu jefe sobre tu carga de trabajo actual y buscas formas de reorganizar o delegar algunas tareas.",
+                        impact: { demands: +10, control: +10, leadership: +10, reward: 0 },
+                        feedback: {
+                            type: "positive",
+                            message: "Buena estrategia. Comunicar proactivamente tus necesidades y buscar soluciones organizacionales es clave para mantener un ambiente laboral saludable."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 7,
+                title: "Falta de desarrollo profesional",
+                description: "Llevas varios años en la misma posición y sientes que no estás creciendo profesionalmente ni aprendiendo nuevas habilidades. ¿Qué acción tomas?",
+                options: [
+                    {
+                        text: "Aceptas la situación, pensando que es normal sentirse estancado después de cierto tiempo en un trabajo.",
+                        impact: { demands: -5, control: -10, leadership: -5, reward: -15 },
+                        feedback: {
+                            type: "negative",
+                            message: "La falta de desarrollo y crecimiento profesional es un factor de riesgo para el burnout, ya que reduce la sensación de realización personal."
+                        }
+                    },
+                    {
+                        text: "Buscas oportunidades de formación y desarrollo por tu cuenta, incluso si la empresa no las proporciona directamente.",
+                        impact: { demands: +5, control: +15, leadership: 0, reward: +10 },
+                        feedback: {
+                            type: "positive",
+                            message: "¡Excelente iniciativa! Tomar las riendas de tu propio desarrollo profesional aumenta la sensación de control y puede prevenir el estancamiento."
+                        }
+                    },
+                    {
+                        text: "Solicitas una reunión con tu supervisor para discutir un plan de desarrollo profesional dentro de la organización.",
+                        impact: { demands: 0, control: +10, leadership: +10, reward: +15 },
+                        feedback: {
+                            type: "positive",
+                            message: "Muy buena elección. Buscar activamente oportunidades de crecimiento dentro de la organización puede revitalizar tu compromiso y prevenir el desgaste."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 8,
+                title: "Ambigüedad de rol",
+                description: "Tus responsabilidades no están claramente definidas y a menudo recibes instrucciones contradictorias de diferentes supervisores. ¿Qué haces?",
+                options: [
+                    {
+                        text: "Intentas hacer todo lo que te piden, aunque sea confuso y estresante.",
+                        impact: { demands: -15, control: -15, leadership: -5, reward: -5 },
+                        feedback: {
+                            type: "negative",
+                            message: "La ambigüedad de rol es un factor de riesgo psicosocial importante. Intentar cumplir con expectativas poco claras aumenta significativamente el estrés laboral."
+                        }
+                    },
+                    {
+                        text: "Solicitas una reunión para clarificar tus responsabilidades y la línea de reporte jerárquico.",
+                        impact: { demands: +10, control: +15, leadership: +10, reward: +5 },
+                        feedback: {
+                            type: "positive",
+                            message: "¡Excelente decisión! Buscar claridad en tus funciones reduce el estrés asociado a la ambigüedad y aumenta tu sensación de control."
+                        }
+                    },
+                    {
+                        text: "Documentas las instrucciones contradictorias y pides aclaraciones específicas cuando surgen.",
+                        impact: { demands: +5, control: +10, leadership: +5, reward: 0 },
+                        feedback: {
+                            type: "positive",
+                            message: "Buena estrategia. Documentar la ambigüedad y buscar clarificaciones ayuda a establecer límites y reduce la confusión que contribuye al burnout."
+                        }
+                    }
+                ]
+            }
+        ];
+        
+        // Variables del juego
+        let currentScenario = 0;
+        let stats = {
+            demands: 100,
+            control: 100,
+            leadership: 100,
+            reward: 100
+        };
+        
+        // Elementos del DOM
+        const gameContainer = document.getElementById('game-container');
+        const progressBar = document.getElementById('progress-bar');
+        const demandsValue = document.getElementById('demands-value');
+        const controlValue = document.getElementById('control-value');
+        const leadershipValue = document.getElementById('leadership-value');
+        const rewardValue = document.getElementById('reward-value');
+        const resultsDiv = document.getElementById('results');
+        const resultMessage = document.getElementById('result-message');
+        const restartBtn = document.getElementById('restart-btn');
+        
+        // Inicializar juego
+        function initGame() {
+            currentScenario = 0;
+            stats = {
+                demands: 100,
+                control: 100,
+                leadership: 100,
+                reward: 100
+            };
+            updateStats();
+            updateProgressBar();
+            showScenario(currentScenario);
+            resultsDiv.style.display = 'none';
+        }
+        
+        // Mostrar escenario actual
+        function showScenario(index) {
+            if (index >= scenarios.length) {
+                showResults();
+                return;
+            }
+            
+            const scenario = scenarios[index];
+            
+            // Limpiar contenedor
+            gameContainer.innerHTML = '';
+            
+            // Crear elementos del escenario
+            const scenarioDiv = document.createElement('div');
+            scenarioDiv.className = 'scenario active';
+            
+            const scenarioTitle = document.createElement('h3');
+            scenarioTitle.textContent = scenario.title;
+            
+            const scenarioDesc = document.createElement('div');
+            scenarioDesc.className = 'scenario-content';
+            scenarioDesc.textContent = scenario.description;
+            
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options';
+            
+            // Crear opciones
+            scenario.options.forEach((option, optIndex) => {
+                const optionBtn = document.createElement('button');
+                optionBtn.className = 'option-btn';
+                optionBtn.textContent = option.text;
+                optionBtn.onclick = () => selectOption(index, optIndex);
+                optionsDiv.appendChild(optionBtn);
+            });
+            
+            // Añadir elementos al contenedor
+            scenarioDiv.appendChild(scenarioTitle);
+            scenarioDiv.appendChild(scenarioDesc);
+            scenarioDiv.appendChild(optionsDiv);
+            gameContainer.appendChild(scenarioDiv);
+        }
+        
+        // Seleccionar una opción
+        function selectOption(scenarioIndex, optionIndex) {
+            const scenario = scenarios[scenarioIndex];
+            const option = scenario.options[optionIndex];
+            
+            // Aplicar impacto en estadísticas
+            for (const [stat, value] of Object.entries(option.impact)) {
+                stats[stat] += value;
+                // Asegurar que los valores estén entre 0 y 100
+                stats[stat] = Math.max(0, Math.min(100, stats[stat]));
+            }
+            
+            // Actualizar interfaz
+            updateStats();
+            
+            // Mostrar feedback
+            showFeedback(scenarioIndex, optionIndex);
+        }
+        
+        // Mostrar feedback de la opción seleccionada
+        function showFeedback(scenarioIndex, optionIndex) {
+            const scenario = scenarios[scenarioIndex];
+            const option = scenario.options[optionIndex];
+            const feedback = option.feedback;
+            
+            // Limpiar opciones
+            const optionsDiv = document.querySelector('.options');
+            optionsDiv.innerHTML = '';
+            
+            // Crear feedback
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.className = `feedback ${feedback.type}`;
+            feedbackDiv.textContent = feedback.message;
+            
+            // Crear botón para continuar
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'next-btn';
+            nextBtn.textContent = 'Continuar';
+            nextBtn.onclick = () => {
+                currentScenario++;
+                updateProgressBar();
+                showScenario(currentScenario);
+            };
+            
+            // Añadir elementos al contenedor
+            const scenarioDiv = document.querySelector('.scenario.active');
+            scenarioDiv.appendChild(feedbackDiv);
+            scenarioDiv.appendChild(nextBtn);
+            
+            // Mostrar feedback con animación
+            setTimeout(() => {
+                feedbackDiv.style.display = 'block';
+            }, 300);
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgressBar() {
+            const progress = (currentScenario / scenarios.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        // Actualizar estadísticas en la interfaz
+        function updateStats() {
+            demandsValue.textContent = stats.demands;
+            controlValue.textContent = stats.control;
+            leadershipValue.textContent = stats.leadership;
+            rewardValue.textContent = stats.reward;
+            
+            // Cambiar color según el valor
+            updateStatColor(demandsValue, stats.demands);
+            updateStatColor(controlValue, stats.control);
+            updateStatColor(leadershipValue, stats.leadership);
+            updateStatColor(rewardValue, stats.reward);
+        }
+        
+        // Actualizar color de estadísticas
+        function updateStatColor(element, value) {
+            if (value > 70) {
+                element.style.color = '#2ecc71'; // Verde para valores altos
+            } else if (value > 40) {
+                element.style.color = '#f39c12'; // Naranja para valores medios
+            } else {
+                element.style.color = '#e74c3c'; // Rojo para valores bajos
+            }
+        }
+        
+        // Mostrar resultados finales
+        function showResults() {
+            gameContainer.innerHTML = '';
+            resultsDiv.style.display = 'block';
+            
+            // Calcular resultado promedio
+            const avgScore = (stats.demands + stats.control + stats.leadership + stats.reward) / 4;
+            
+            let resultText = '';
+            let recommendations = '';
+            
+            if (avgScore >= 75) {
+                resultText = `<h3>¡Excelente manejo de los factores de riesgo psicosocial!</h3>
+                <p>Has demostrado excelentes habilidades para prevenir el síndrome de desgaste profesional con un puntaje promedio de ${Math.round(avgScore)}%. Tus decisiones reflejan un buen equilibrio entre las demandas laborales, el control sobre tu trabajo, la calidad del liderazgo y la satisfacción con las recompensas.</p>`;
+                
+                recommendations = `<h4>Recomendaciones para mantener tu bienestar laboral:</h4>
+                <ul>
+                    <li>Continúa estableciendo límites saludables en tu trabajo</li>
+                    <li>Comparte tus estrategias con compañeros que puedan beneficiarse</li>
+                    <li>Realiza revisiones periódicas de tu equilibrio trabajo-vida</li>
+                </ul>`;
+            } else if (avgScore >= 50) {
+                resultText = `<h3>Buen manejo de factores de riesgo psicosocial</h3>
+                <p>Has demostrado un manejo adecuado de los factores que pueden conducir al burnout con un puntaje promedio de ${Math.round(avgScore)}%. Aunque hay áreas de mejora, tus decisiones generalmente contribuyen a un entorno laboral saludable.</p>`;
+                
+                recommendations = `<h4>Recomendaciones para mejorar tu bienestar laboral:</h4>
+                <ul>
+                    <li>Presta especial atención a las áreas con puntuaciones más bajas</li>
+                    <li>Desarrolla estrategias para comunicar mejor tus necesidades</li>
+                    <li>Busca oportunidades para aumentar tu autonomía en el trabajo</li>
+                </ul>`;
+            } else {
+                resultText = `<h3>Atención: Riesgo de desgaste profesional</h3>
+                <p>Tu puntaje promedio de ${Math.round(avgScore)}% indica que algunas de tus decisiones pueden contribuir al desarrollo del síndrome de desgaste profesional. Es importante revisar tus estrategias para manejar los factores de riesgo psicosocial.</p>`;
+                
+                recommendations = `<h4>Recomendaciones urgentes para reducir el riesgo de burnout:</h4>
+                <ul>
+                    <li>Establece límites claros entre tu vida laboral y personal</li>
+                    <li>Aprende a comunicar asertivamente tus necesidades</li>
+                    <li>Busca apoyo profesional si experimentas síntomas de agotamiento</li>
+                    <li>Desarrolla técnicas de manejo del estrés como mindfulness o ejercicio regular</li>
+                </ul>`;
+            }
+            
+            // Análisis detallado por factores
+            let detailedAnalysis = `<h4>Análisis detallado por factores:</h4>
+            <ul>`;
+            
+            if (stats.demands < 50) {
+                detailedAnalysis += `<li><strong>Gestión de demandas (${stats.demands}%)</strong>: Necesitas mejorar tu capacidad para gestionar la carga de trabajo y establecer límites.</li>`;
+            } else {
+                detailedAnalysis += `<li><strong>Gestión de demandas (${stats.demands}%)</strong>: Manejas adecuadamente las exigencias laborales.</li>`;
+            }
+            
+            if (stats.control < 50) {
+                detailedAnalysis += `<li><strong>Control laboral (${stats.control}%)</strong>: Deberías buscar formas de aumentar tu autonomía y participación en decisiones.</li>`;
+            } else {
+                detailedAnalysis += `<li><strong>Control laboral (${stats.control}%)</strong>: Mantienes un buen nivel de autonomía en tu trabajo.</li>`;
+            }
+            
+            if (stats.leadership < 50) {
+                detailedAnalysis += `<li><strong>Calidad de liderazgo (${stats.leadership}%)</strong>: Las relaciones con superiores y el estilo de liderazgo requieren atención.</li>`;
+            } else {
+                detailedAnalysis += `<li><strong>Calidad de liderazgo (${stats.leadership}%)</strong>: Promueves y/o disfrutas de un buen ambiente de liderazgo.</li>`;
+            }
+            
+            if (stats.reward < 50) {
+                detailedAnalysis += `<li><strong>Satisfacción con recompensas (${stats.reward}%)</strong>: Necesitas mejorar el equilibrio entre tu esfuerzo y las recompensas recibidas.</li>`;
+            } else {
+                detailedAnalysis += `<li><strong>Satisfacción con recompensas (${stats.reward}%)</strong>: Mantienes un equilibrio saludable entre esfuerzo y recompensa.</li>`;
+            }
+            
+            detailedAnalysis += `</ul>`;
+            
+            // Mostrar resultado completo
+            resultMessage.innerHTML = resultText + detailedAnalysis + recommendations;
+        }
+        
+        // Reiniciar juego
+        restartBtn.addEventListener('click', initGame);
+        
+        // Iniciar juego al cargar la página
+        window.onload = initGame;
+    </script>
+<footer>
+                    <div class="footer-section">
+                <h3>Contacto</h3>
+                <p>Email: alvarezgamezd@icloud.com</p>
+                <p>Teléfono: (+57) 321-217-4175</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 DANIEL ALVAREZ G - CURSO DE CONDICIONES DE LA ORGANIZACION DEL TRABAJO - CEAD SOGAMOSO </p>
+        </div>
+    </footer>
+    
+    <script>
+        function calculateBMI() {
+            const weight = document.getElementById('weight').value;
+            const height = document.getElementById('height').value / 100; // Convert to meters
+            
+            if (weight && height) {
+                const bmi = weight / (height * height);
+                const bmiRounded = bmi.toFixed(1);
+                
+                let category, resultClass;
+                
+                if (bmi < 18.5) {
+                    category = "Bajo peso";
+                    resultClass = "underweight";
+                } else if (bmi < 25) {
+                    category = "Peso normal";
+                    resultClass = "normal";
+                } else if (bmi < 30) {
+                    category = "Sobrepeso";
+                    resultClass = "overweight";
+                } else {
+                    category = "Obesidad";
+                    resultClass = "obese";
+                }
+                
+                const resultElement = document.getElementById('result');
+                resultElement.innerHTML = `<strong>Su IMC es: ${bmiRounded}</strong><br>Categoría: ${category}<br><br>`;
+                
+                if (category === "Bajo peso") {
+                    resultElement.innerHTML += "Un IMC bajo puede estar asociado con deficiencias nutricionales, sistema inmunológico debilitado y otros problemas de salud. Consulte a un profesional sanitario.";
+                } else if (category === "Peso normal") {
+                    resultElement.innerHTML += "Su peso está dentro del rango considerado saludable. Mantenga hábitos alimenticios balanceados y actividad física regular.";
+                } else if (category === "Sobrepeso") {
+                    resultElement.innerHTML += "El sobrepeso puede aumentar el riesgo de enfermedades cardiovasculares, diabetes y otras condiciones. Considere consultar a un profesional de la salud para orientación.";
+                } else {
+                    resultElement.innerHTML += "La obesidad está asociada con mayor riesgo de múltiples condiciones crónicas, incluyendo enfermedades cardiovasculares, diabetes tipo 2 y algunos tipos de cáncer. Es importante buscar orientación profesional.";
+                }
+                
+                resultElement.className = resultClass;
+                resultElement.style.display = "block";
+            }
+        }
+
+    </script>
+
+</body>
+</html>
